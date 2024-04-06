@@ -16,6 +16,8 @@
         justify-content: center;
         align-items: center;
         background-color: black;
+        margin: 0;
+        padding: 0;
     }
     .clockicons {
         font-family: "clockicons";
@@ -30,12 +32,18 @@
         z-index: 3;
     }
     .btn{
+      font-weight: bolder;
+      font-size: large;
         height: 50px;
-    width: 100px;
-    border-radius: 20px;
+    width: 200px;
+    border-radius: 10px;
     border: none;
-    background: rgb(97, 97, 97);
+    background: rgb(127, 163, 225);
+    color:rgb(41, 79, 141) ;
     }
+    button:active {
+      transform: translateY(1px);
+}
     @keyframes rotate {
   from {
     rotate: 0deg;
@@ -75,6 +83,7 @@
   aspect-ratio: 1.618;
   width: 90vmin;
   position: absolute;
+  animation: rotate 20s infinite;
 }
 
 #wrapper > .shape {
@@ -344,7 +353,7 @@
 
         if (timerRunning) {
             clearInterval(timerInterval);
-            button.textContent = "Start";
+            button.textContent = "START";
             document.getElementById("restartButton").disabled = false;
         } else {
             timerInterval = setInterval(updateTimer, 1000);
