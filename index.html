@@ -428,6 +428,27 @@ setInterval(() => {
   
   prev = index;
 }, 3000);
+
+function toggleFullScreen() {
+        const elem = document.getElementById("timer");
+        if (!document.fullscreenElement) {
+            elem.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    // Event listener to exit full-screen mode when pressing Esc key
+    document.addEventListener('fullscreenchange', (event) => {
+        if (!document.fullscreenElement) {
+            console.log('Exited full-screen mode.');
+        }
+    });
+
+    // Event listener for double-click to toggle full-screen mode
+    document.getElementById("timer").addEventListener("dblclick", toggleFullScreen);
 </script>
 </body>
 </html>
