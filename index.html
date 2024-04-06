@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://db.onlinewebfonts.com/c/84cb021d5f9af287ffff84b61beef6dc?family=clockicons" rel="stylesheet">
+<title>Timer</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        font-size:100px;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+    }
+    .clockicons {
+        font-family: "clockicons";
+        color: white;
+    }
+    .center {
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 3;
+    }
+    .btn{
+        height: 50px;
+    width: 100px;
+    border-radius: 20px;
+    border: none;
+    background: rgb(97, 97, 97);
+    }
+    @keyframes rotate {
+  from {
+    rotate: 0deg;
+  }
+  
+  50% {
+    scale: 1 1.5;
+  }
+  
+  to {
+    rotate: 360deg;
+  }
+}
+
+#blob {
+  background-color: white;
+  height: 34vmax;
+  aspect-ratio: 1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: linear-gradient(to right, aquamarine, mediumpurple);
+  animation: rotate 20s infinite;
+  opacity: 0.8;
+}
+
+#blur {
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 2;
+  backdrop-filter: blur(12vmax);
+}
+
+</style>
+</head>
+<body>
+    <div id="blob"></div>
+<div id="blur"></div>
+<!-- <h1>Timer</h1> -->
+<div class="center">
+    <p id="timer" class="clockicons">00:00:00</p>
+    <div class="button">
+        <button id="startPauseButton" class="btn" onclick="startPauseTimer()">START</button>
+    <button id="restartButton" class="btn"  onclick="restartTimer()" disabled>RESTART</button>
+    </div>
+</div>
+
+<script>
+    let timerInterval;
+    let timerRunning = false;
+    let hours = 0, minutes = 0, seconds = 0;
+
+    function startPauseTimer() {
+        const button = document.getElementById("startPauseButton");
+
+        if (timerRunning) {
+            clearInterval(timerInterval);
+            button.textContent = "Start";
+            document.getElementById("restartButton").disabled = false;
+        } else {
+            timerInterval = setInterval(updateTimer, 1000);
+            button.textContent = "PAUSE";
+            document.getElementById("restartButton").disabled = true;
+        }
+
+        timerRunning = !timerRunning;
+    }
+
+    function updateTimer() {
+        seconds++;
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+        }
+
+        const formattedTime = pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
+        document.getElementById("timer").textContent = formattedTime;
+    }
+
+    function restartTimer() {
+        clearInterval(timerInterval);
+        hours = minutes = seconds = 0;
+        document.getElementById("timer").textContent = "00:00:00";
+        document.getElementById("startPauseButton").textContent = "Start";
+        document.getElementById("restartButton").disabled = true;
+        timerRunning = false;
+    }
+
+    function pad(num) {
+        return num < 10 ? "0" + num : num;
+    }
+    /* -- Glow effect -- */
+
+const blob = document.getElementById("blob");
+
+window.onpointermove = event => { 
+  const { clientX, clientY } = event;
+  
+  blob.animate({
+    left: `${clientX}px`,
+    top: `${clientY}px`
+  }, { duration: 3000, fill: "forwards" });
+}
+
+</script>
+</body>
+</html>
