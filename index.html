@@ -361,6 +361,7 @@
             document.getElementById("restartButton").disabled = true;
         }
 
+
         timerRunning = !timerRunning;
     }
 
@@ -391,21 +392,21 @@
     function pad(num) {
         return num < 10 ? "0" + num : num;
     }
-    /* -- Glow effect --
 
-const blob = document.getElementById("blob");
+    // Listen for visibility change events
+    document.addEventListener("visibilitychange", function() {
+        if (document.visibilityState === 'visible') {
+            if (timerRunning) {
+                // Resume the timer if it was running
+                timerInterval = setInterval(updateTimer, 1000);
+            }
+        } else {
+            // Pause the timer if the tab loses visibility
+            clearInterval(timerInterval);
+        }
+    });
 
-window.onpointermove = event => { 
-  const { clientX, clientY } = event;
-  
-  blob.animate({
-    left: `${clientX}px`,
-    top: `${clientY}px`
-  }, { duration: 3000, fill: "forwards" });
-}
- */
-
- const wrapper = document.getElementById("wrapper");
+    const wrapper = document.getElementById("wrapper");
 
 const rand = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -437,27 +438,6 @@ setInterval(() => {
   
   prev = index;
 }, 3000);
-
-function toggleFullScreen() {
-        const elem = document.getElementById("timer");
-        if (!document.fullscreenElement) {
-            elem.requestFullscreen().catch(err => {
-                console.error(`Error attempting to enable full-screen mode: ${err.message}`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    }
-
-    // Event listener to exit full-screen mode when pressing Esc key
-    document.addEventListener('fullscreenchange', (event) => {
-        if (!document.fullscreenElement) {
-            console.log('Exited full-screen mode.');
-        }
-    });
-
-    // Event listener for double-click to toggle full-screen mode
-    document.getElementById("timer").addEventListener("dblclick", toggleFullScreen);
 </script>
 </body>
 </html>
